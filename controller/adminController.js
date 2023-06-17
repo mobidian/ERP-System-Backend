@@ -527,7 +527,7 @@ module.exports = {
 			// const Chek = chekSms.flatMap((item) => item.attendances);
 			// if (chekSms.length <= 0) {
 			// 	console.log("length 0");
-			// 	res.status(200).json(response);
+				res.status(200).json(response);
 			// } else {
 			// 	const ff = Chek.map((i) => i.status === true);
 			// 	if (!smsSent && ff[0] === true) {
