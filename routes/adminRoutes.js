@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const passport = require("passport");
 const upload = require("../utils/multer");
-
 const {
 	addFaculty,
 	addSubject,
@@ -163,8 +162,8 @@ router.post(
 // ====== STUDENTS ===========
 router.get(
 	"/findAllStudent",
-	passport.authenticate("jwt", { session: false }),
-	findAllStudent
+	// passport.authenticate("jwt", { session: false }),
+	findAllStudent,
 );
 router.post(
 	"/getAllSubject",

@@ -37,7 +37,6 @@ require("./config/passport")(passport);
 
 app.use(morgan("dev"));
 
-
 let _response = {};
 
 //ROUTES
