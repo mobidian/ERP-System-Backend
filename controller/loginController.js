@@ -29,7 +29,7 @@ module.exports = {
 			const admin = await Admin.findOne({ registrationNumber });
 			const dekan = await Dekan.findOne({ registrationNumber });
 			const faculty = await Faculty.findOne({ registrationNumber });
-			const news = await Newsadmin.findOne({ registrationNumber });
+			// const news = await Newsadmin.findOne({ registrationNumber });
 			const student = await Student.findOne({ registrationNumber });
 			if (admin) {
 				const isCorrect = await bcrypt.compare(password, admin.password);
@@ -178,51 +178,6 @@ module.exports = {
 						}
 					);
 				}
-			} else if (news) {
-				const isCorrect = await bcrypt.compare(password, news.password);
-				if (!isCorrect) {
-					errors.password = "Password is incorrect!";
-					return res.status(404).json(errors);
-				}
-
-				const match = await bcrypt.compare(news.dob, news.password);
-				if (match) {
-					const payload = {
-						id: news.id,
-						news,
-						text: "news",
-						showModal: true,
-					};
-					jwt.sign(
-						payload,
-						keys.secretOrKey,
-						{ expiresIn: 3600 },
-						(err, token) => {
-							res.json({
-								success: true,
-								token: "Bearer " + token,
-							});
-						}
-					);
-				} else {
-					const payload = {
-						id: news.id,
-						news,
-						text: "news",
-						showModal: false,
-					};
-					jwt.sign(
-						payload,
-						keys.secretOrKey,
-						{ expiresIn: 3600 },
-						(err, token) => {
-							res.json({
-								success: true,
-								token: "Bearer " + token,
-							});
-						}
-					);
-				}
 			} else if (student) {
 				const isCorrect = await bcrypt.compare(password, student.password);
 				if (!isCorrect) {
@@ -271,6 +226,53 @@ module.exports = {
 				errors.registrationNumber = "Registration number not found!";
 				return res.status(404).json(errors);
 			}
+
+			// else if (news) {
+			// 	const isCorrect = await bcrypt.compare(password, news.password);
+			// 	if (!isCorrect) {
+			// 		errors.password = "Password is incorrect!";
+			// 		return res.status(404).json(errors);
+			// 	}
+
+			// 	const match = await bcrypt.compare(news.dob, news.password);
+			// 	if (match) {
+			// 		const payload = {
+			// 			id: news.id,
+			// 			news,
+			// 			text: "news",
+			// 			showModal: true,
+			// 		};
+			// 		jwt.sign(
+			// 			payload,
+			// 			keys.secretOrKey,
+			// 			{ expiresIn: 3600 },
+			// 			(err, token) => {
+			// 				res.json({
+			// 					success: true,
+			// 					token: "Bearer " + token,
+			// 				});
+			// 			}
+			// 		);
+			// 	} else {
+			// 		const payload = {
+			// 			id: news.id,
+			// 			news,
+			// 			text: "news",
+			// 			showModal: false,
+			// 		};
+			// 		jwt.sign(
+			// 			payload,
+			// 			keys.secretOrKey,
+			// 			{ expiresIn: 3600 },
+			// 			(err, token) => {
+			// 				res.json({
+			// 					success: true,
+			// 					token: "Bearer " + token,
+			// 				});
+			// 			}
+			// 		);
+			// 	}
+			// } 
 		} catch (err) {
 			console.log("Error in admin login", err.message);
 		}

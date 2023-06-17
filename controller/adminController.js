@@ -508,91 +508,88 @@ module.exports = {
 				attendanceArray,
 			};
 
-			const chekSms = attendanceArray.filter((i) => i.totalAbsentHours === 38);
+			// const chekSms = attendanceArray.filter((i) => i.totalAbsentHours === 38);
 
-			var data = new FormData();
-			data.append("email", process.env.ESKIZ_EMAIL);
-			data.append("password", process.env.ESKIZ_SECRET);
+			// var data = new FormData();
+			// data.append("email", process.env.ESKIZ_EMAIL);
+			// data.append("password", process.env.ESKIZ_SECRET);
 
-			var config = {
-				method: "post",
-				maxBodyLength: Infinity,
-				url: "https://notify.eskiz.uz/api/auth/login",
-				headers: {
-					...data.getHeaders(),
-				},
-				data: data,
-			};
+			// var config = {
+			// 	method: "post",
+			// 	maxBodyLength: Infinity,
+			// 	url: "https://notify.eskiz.uz/api/auth/login",
+			// 	headers: {
+			// 		...data.getHeaders(),
+			// 	},
+			// 	data: data,
+			// };
+			// let smsSent = false;
+			// const Chek = chekSms.flatMap((item) => item.attendances);
+			// if (chekSms.length <= 0) {
+			// 	console.log("length 0");
+			// 	res.status(200).json(response);
+			// } else {
+			// 	const ff = Chek.map((i) => i.status === true);
+			// 	if (!smsSent && ff[0] === true) {
+			// 		axios(config)
+			// 			.then(function (response) {
+			// 				// let smsSent = false; // flag to keep track of whether the SMS has been sent
+			// 				smsSent = true; // set the flag to true once the SMS has been sent
 
-			const Chek = chekSms.flatMap((item) => item.attendances);
+			// 				const token = response.data.data.token;
+			// 				console.log(token);
+			// 				const jsonResponse = JSON.parse(JSON.stringify(response));
+			// 				res.status(200).json(jsonResponse);
 
-			if (chekSms.length <= 0) {
-				console.log("length 0");
-				res.status(200).json(response);
-			} else {
-				// const allTrue = statusChek.every((innerArr) =>
-				// 	innerArr.every((status) => status === true)
-				// );
-				const ff = Chek.map((i) => i.status === true);
-
-				if (ff[0] === true) {
-					axios(config)
-						.then(function (response) {
-							const token = response.data.data.token;
-							// Set the request headers
-							const headers = {
-								Authorization: "Bearer " + token,
-								Accept: "*/*",
-								Connection: "keep-alive",
-							};
-							function generateOTP() {
-								var digits = "0123456789";
-								let OTP = "";
-								for (let i = 0; i < 6; i++) {
-									OTP += digits[Math.floor(Math.random() * 10)];
-								}
-								return OTP;
-							}
-							const OTP = generateOTP();
-							var data = new FormData();
-							data.append("mobile_phone", Chek[0].student.studentMobileNumber); // Chek[0].student.studentMobileNumber
-							data.append(
-								"message",
-								`${Chek[0].student.name} siz 30 soat dars qoldirdingiz!`
-							);
-							data.append("from", "4546");
-							data.append("callback_url", "http://0000.uz/test.php");
-							var config = {
-								method: "post",
-								maxBodyLength: Infinity,
-								url: "https://notify.eskiz.uz/api/message/sms/send",
-								headers: headers,
-								data: data,
-							};
-							axios(config)
-								.then(function (response) {
-									// console.log(JSON.stringify(response.data));
-									res.status(200).json(response);
-									// const byId = Chek.map((i) => i._id);
-									// const data = attendence.updateMany(
-									// 	{ _id: { $in: byId } }, // filter documents with ids in the byId array
-									// 	{ $set: { status: false } } // set the status field to false
-									// );
-									// console.log(data);
-									console.log("okkkk");
-								})
-								.catch(function (error) {
-									console.log(error.message);
-									res.status(404).json(error.message);
-								});
-							res.status(200).json(response);
-						})
-						.catch(function (error) {
-							console.log(error);
-							res.status(200).json(response);
-						});
-				}
-			}
+			// 				// // Set the request headers
+			// 				// const headers = {
+			// 				// 	Authorization: "Bearer " + token,
+			// 				// 	Accept: "*/*",
+			// 				// 	Connection: "keep-alive",
+			// 				// };
+			// 				// var data = new FormData();
+			// 				// data.append("mobile_phone", "998999576266"); // Chek[0].student.studentMobileNumber
+			// 				// data.append(
+			// 				// 	"message",
+			// 				// 	`${Chek[0].student.name} siz 30 soat dars qoldirdingiz!`
+			// 				// );
+			// 				// data.append("from", "4546");
+			// 				// data.append(
+			// 				// 	"callback_url",
+			// 				// 	"http://localhost:5000/api/admin/findAllStudent"
+			// 				// );
+			// 				// var config = {
+			// 				// 	method: "post",
+			// 				// 	maxBodyLength: Infinity,
+			// 				// 	url: "https://notify.eskiz.uz/api/message/sms/send",
+			// 				// 	headers: headers,
+			// 				// 	data: data,
+			// 				// };
+			// 				// if (!smsSent) {
+			// 				// 	// check if SMS has not been sent yet
+			// 				// 	axios(config)
+			// 				// 		.then(function (response) {
+			// 				// 			// Convert the response to JSON
+			// 				// 			const jsonResponse = JSON.parse(JSON.stringify(response));
+			// 				// 			res.status(200).json(jsonResponse);
+			// 				// 			smsSent = true; // set the flag to true after sending the SMS
+			// 				// 			console.log("okkkk");
+			// 				// 		})
+			// 				// 		.catch(function (error) {
+			// 				// 			smsSent = true; // set the flag to true after sending the SMS
+			// 				// 			console.log(error.message);
+			// 				// 			res.status(404).json(error.message);
+			// 				// 		});
+			// 				// } else {
+			// 				// 	console.log("SMS already sent"); // output a message indicating that SMS has already been sent
+			// 				// }
+			// 			})
+			// 			.catch(function (error) {
+			// 				console.log(error);
+			// 				res.status(200).json(response);
+			// 			});
+			// 	}
+			// }
 		} catch (error) {
 			console.log(error.message);
 		}
